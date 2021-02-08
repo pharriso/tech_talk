@@ -1,0 +1,41 @@
+---
+
+- name: create vm from template
+  vmware_guest:
+    validate_certs: no
+    datacenter: demolab
+    state: poweredon
+    template: "{{ cluster }}_rhel8_template"
+    name: "{{ vm_name }}"
+    cluster: "{{ cluster }}"
+    folder: techtalk
+    wait_for_ip_address: true
+    hardware:
+      memory_mb: "{{ memory }}"
+      num_cpus: "{{ cpus }}"
+    networks:
+      - name: infra
+        ip: "{{ vm_ip }}"
+        netmask: 255.255.252.0
+        gateway: 10.50.0.254
+        type: static
+    customization:
+      domain: demolab.local
+      dns_servers:
+        - 10.50.0.173
+      dns_suffix:
+        - demolab.local
+  delegate_to: localhost
+
+- name: wait for ssh
+  wait_for:
+    host: "{{ vm_ip }}"
+    delay: 10
+    timeout: 1200
+    port: 22
+  delegate_to: localhost
+
+- name: add host to play
+  add_host: 
+    name: "{{ vm_ip }}"
+    group: new_vms

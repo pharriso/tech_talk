@@ -1,0 +1,19 @@
+---
+
+- name: install satellite katello certificate
+  yum:
+    name: http://sat6.demolab.local/pub/katello-ca-consumer-latest.noarch.rpm
+    state: installed
+    disable_gpg_check: yes
+
+- name: register to satellite
+  redhat_subscription:
+    state: present
+    activationkey: dev-rhel8
+    org_id: pharriso
+    force_register: no
+
+- name: install katello-host-tools
+  yum:
+    name: katello-host-tools
+    state: installed
