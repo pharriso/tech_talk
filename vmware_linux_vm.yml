@@ -8,4 +8,5 @@
 
 - name: register new vm to satellite
   hosts: new_vms
+  roles:
   - register_satellite
