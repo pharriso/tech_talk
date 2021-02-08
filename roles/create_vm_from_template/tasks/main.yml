@@ -5,9 +5,9 @@
     validate_certs: no
     datacenter: demolab
     state: poweredon
-    template: "{{ cluster }}_rhel8_template"
+    template: rhnode2_rhel8_template
     name: "{{ vm_name }}"
-    cluster: "{{ cluster }}"
+    cluster: rhnode2
     folder: techtalk
     wait_for_ip_address: true
     hardware:
